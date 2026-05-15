@@ -3,6 +3,9 @@ import requests
 
 st.set_page_config(page_title="AI Healthcare Assistant", layout="wide")
 
+# Backend API URL
+API_URL = "http://127.0.0.1:8000"
+
 st.title("AI Healthcare Assistant")
 
 menu = st.sidebar.selectbox(
@@ -16,8 +19,9 @@ if menu == "Chatbot":
     query = st.text_area("Enter your question")
 
     if st.button("Ask AI"):
+
         response = requests.post(
-            "http://127.0.0.1:8000/chat",
+            f"{API_URL}/chat",
             params={"query": query}
         )
 
@@ -29,11 +33,18 @@ if menu == "Medical Report Summarizer":
     file = st.file_uploader("Upload PDF", type=["pdf"])
 
     if file:
-        files = {"file": file.getvalue()}
+
+        files = {
+        "file": (file.name, file.getvalue(), "application/pdf")
+        }
 
         response = requests.post(
-            "http://127.0.0.1:8000/summarize-report",
-            files={"file": file}
+            f"{API_URL}/summarize-report",
+            files=files
         )
 
-        st.write(response.json()["summary"])
+        if response.status_code == 200:
+            st.write(response.json()["summary"])
+        else:
+            st.error("Backend Error")
+            st.code(response.text)
