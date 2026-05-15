@@ -342,20 +342,6 @@ pip install -r requirements.txt
 
 ---
 
-# Screenshots
-
-Add your project screenshots here.
-
-Example:
-
-```md
-![Home Page](images/home.png)
-![Chatbot](images/chatbot.png)
-![PDF Summary](images/summary.png)
-```
-
----
-
 # Deployment
 
 You can deploy this project using:
