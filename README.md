@@ -1,43 +1,29 @@
 # HealthcareAI
 
-HealthcareAI is an advanced AI-powered healthcare assistant that combines Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), FastAPI, Streamlit, and vector databases to provide intelligent healthcare support.
+AI-powered healthcare assistant built using FastAPI, Streamlit, Generative AI, and Deep Learning.  
+This project combines conversational healthcare support, medical report summarization and chest X-ray pneumonia detection in a single platform.
 
-The project allows users to:
-- Chat with an AI healthcare assistant
-- Upload and summarize medical reports
-- Retrieve healthcare-related information using RAG
-- Process PDFs and medical documents
-- Interact through a modern frontend interface
+## Features
 
-This project is designed to demonstrate practical AI engineering, backend development, NLP pipelines, and healthcare-focused GenAI applications.
+### AI Healthcare Chatbot
+- Conversational healthcare assistant
+- Answers health-related questions using LLMs
+- Built using FastAPI and Generative AI APIs
 
----
+### Medical Report Summarizer
+- Upload PDF medical reports
+- Extracts and summarizes report content
+- Helps users quickly understand medical documents
 
-# Features
+### Chest X-ray Pneumonia Detection
+- CNN-based medical image classification
+- Detects Pneumonia vs Normal chest X-rays
+- Built using TensorFlow/Keras
 
-## AI Healthcare Chatbot
-An intelligent healthcare chatbot capable of answering healthcare-related queries using LLMs and Retrieval-Augmented Generation.
-
-## Medical Report Summarization
-Upload medical PDF reports and generate concise AI-powered summaries.
-
-## Retrieval-Augmented Generation (RAG)
-Uses vector embeddings and FAISS vector databases for context-aware responses.
-
-## FastAPI Backend
-Scalable REST API backend built using FastAPI.
-
-## Streamlit Frontend
-Interactive user interface built with Streamlit.
-
-## Vector Database Integration
-Uses FAISS for efficient semantic search and retrieval.
-
-## PDF Processing
-Extracts and processes text from uploaded medical reports.
-
-## Modular Architecture
-Clean and scalable project structure for future improvements and deployment.
+### Streamlit Frontend
+- Interactive web interface
+- Upload reports and X-ray images
+- Chat with AI assistant in real time
 
 ---
 
@@ -48,47 +34,20 @@ Clean and scalable project structure for future improvements and deployment.
 - FastAPI
 - Uvicorn
 
-## AI / NLP
-- LangChain
-- FAISS
-- Large Language Models (LLMs)
-- Retrieval-Augmented Generation (RAG)
+## AI / Machine Learning
+- TensorFlow
+- Keras
+- CNN
+- Generative AI APIs
 
 ## Frontend
 - Streamlit
 
-## PDF Processing
+## Other Libraries
+- NumPy
+- Pillow
 - PyMuPDF
-- PDF Text Extraction
-
-## Environment & Utilities
-- dotenv
-- requests
-
----
-
-# Project Architecture
-
-```text
-User
-  │
-  ▼
-Streamlit Frontend
-  │
-  ▼
-FastAPI Backend
-  │
-  ├── Healthcare Chatbot
-  ├── PDF Report Summarizer
-  ├── RAG Pipeline
-  └── Vector Database
-          │
-          ▼
-        FAISS
-          │
-          ▼
-        LLM API
-```
+- Requests
 
 ---
 
@@ -101,63 +60,57 @@ HealthcareAI/
 │   ├── main.py
 │   ├── chatbot.py
 │   ├── report_summarizer.py
-│   ├── vector_store.py
-│   ├── rag_pipeline.py
-│   └── utils.py
+│   │
+│   └── image_model/
+│       ├── train_cnn.py
+│       ├── predict_xray.py
+│       └── xray_model.h5
 │
 ├── frontend/
 │   └── app.py
 │
-├── data/
-│   └── medical_docs/
+├── notebooks/
+│   └── xray_training.ipynb
 │
-├── uploads/
+├── data/
+│   └── chest_xray/
 │
 ├── requirements.txt
-├── .env
-├── README.md
-└── .gitignore
+├── .gitignore
+└── README.md
 ```
 
 ---
 
 # Installation
 
-## 1. Clone the Repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/Im-naitik/HealthcareAI.git
-```
 
----
-
-## 2. Navigate to Project Directory
-
-```bash
 cd HealthcareAI
 ```
 
----
-
-## 3. Create Virtual Environment
+## Create Virtual Environment
 
 ### Windows
 
 ```bash
 python -m venv venv
+
 venv\Scripts\activate
 ```
 
-### Linux / Mac
+### Linux/Mac
 
 ```bash
 python3 -m venv venv
+
 source venv/bin/activate
 ```
 
----
-
-## 4. Install Dependencies
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -165,43 +118,79 @@ pip install -r requirements.txt
 
 ---
 
-# Environment Variables
+# Dataset
 
-Create a `.env` file in the root directory.
+Dataset used for X-ray classification:
 
-```env
-GROQ_API_KEY=your_api_key_here
+Chest X-Ray Images (Pneumonia)
+
+Download dataset from Kaggle and place it inside:
+
+```bash
+data/chest_xray/
 ```
 
-Replace `your_api_key_here` with your actual API key.
+Dataset structure:
+
+```bash
+data/chest_xray/
+│
+├── train/
+├── val/
+└── test/
+```
 
 ---
 
-# Running the Application
+# Train CNN Model
 
-## Start FastAPI Backend
+Run:
+
+```bash
+python backend/image_model/train_cnn.py
+```
+
+Or use:
+
+```bash
+notebooks/xray_training.ipynb
+```
+
+The trained model will be saved as:
+
+```bash
+backend/image_model/xray_model.h5
+```
+
+---
+
+# Run FastAPI Backend
 
 ```bash
 uvicorn backend.main:app --reload
 ```
 
-Backend runs on:
+Backend runs at:
 
 ```bash
 http://127.0.0.1:8000
 ```
 
+API documentation:
+
+```bash
+http://127.0.0.1:8000/docs
+```
+
 ---
 
-## Start Streamlit Frontend
-
-Open a new terminal and run:
+# Run Streamlit Frontend
 
 ```bash
 streamlit run frontend/app.py
 ```
 
-Frontend runs on:
+Frontend runs at:
 
 ```bash
 http://localhost:8501
@@ -211,148 +200,47 @@ http://localhost:8501
 
 # API Endpoints
 
-# Home Endpoint
+## Chatbot
 
-```http
-GET /
-```
-
-### Response
-
-```json
-{
-  "message": "AI Healthcare Assistant API is running"
-}
-```
-
----
-
-# Chat Endpoint
-
-```http
+```bash
 POST /chat
 ```
 
-### Parameters
+## Medical Report Summarizer
 
-| Parameter | Type | Description |
-|----------|------|-------------|
-| query | string | User healthcare query |
-
-### Example Request
-
-```http
-POST /chat?query=What are the symptoms of diabetes?
+```bash
+POST /summarize-report
 ```
 
----
+## X-ray Prediction
 
-# PDF Summarization Endpoint
-
-```http
-POST /summarize-pdf
+```bash
+POST /predict-xray
 ```
-
-### Upload
-- Medical PDF Report
-
-### Output
-- AI-generated summary of the uploaded report
-
----
-
-# How RAG Works in This Project
-
-1. Medical documents are processed and converted into embeddings.
-2. Embeddings are stored in the FAISS vector database.
-3. User queries are converted into embeddings.
-4. Relevant medical context is retrieved from FAISS.
-5. Retrieved context is sent to the LLM.
-6. LLM generates accurate and context-aware responses.
 
 ---
 
 # Future Improvements
 
-- Medical Image Classification
-- X-ray Analysis using CNNs
-- Pneumonia Detection
-- Skin Disease Classification
-- Voice-Based AI Assistant
-- Multi-Language Support
-- Electronic Health Record Integration
-- Appointment Recommendation System
-- Cloud Deployment
-- Docker Support
-- Authentication System
-- Chat History Storage
-- AI Agent Workflow Integration
-
----
-
-# Use Cases
-
-- AI Healthcare Assistance
-- Medical Report Analysis
-- Healthcare Chatbot Systems
-- GenAI Healthcare Applications
-- Medical Information Retrieval
-- NLP Research Projects
-- AI/ML Portfolio Projects
-
----
-
-# Learning Outcomes
-
-This project demonstrates knowledge of:
-
-- FastAPI Backend Development
-- LangChain Framework
-- Retrieval-Augmented Generation (RAG)
-- FAISS Vector Databases
-- LLM Integration
-- Streamlit Frontend Development
-- PDF Processing
-- AI Application Development
-- REST API Design
-- NLP Pipelines
-
----
-
-# Requirements
-
-Example dependencies:
-
-```txt
-fastapi
-uvicorn
-streamlit
-langchain
-faiss-cpu
-python-dotenv
-pymupdf
-requests
-```
-
-Install all dependencies using:
-
-```bash
-pip install -r requirements.txt
-```
+- Transfer Learning using ResNet50 / EfficientNet
+- Grad-CAM heatmap visualization
+- Multi-disease X-ray classification
+- Docker deployment
+- AWS deployment
+- Authentication system
+- RAG-based medical knowledge retrieval
+- Medical voice assistant
 
 ---
 
 # Deployment
 
-You can deploy this project using:
+The project can be deployed using:
 
+- AWS EC2
 - Render
-- Railway
+- Docker
 - Streamlit Cloud
-- Hugging Face Spaces
-- AWS
-- Google Cloud Platform
-- Azure
 
 ---
 
@@ -360,38 +248,8 @@ You can deploy this project using:
 
 Naitik Katiyar
 
-GitHub:
-https://github.com/Im-naitik
+GitHub: https://github.com/Im-naitik
 
-LinkedIn:
-https://www.linkedin.com/in/katiyar-naitik/
+Portfolio: https://im-naitik.github.io/portfolio/
 
----
-
-# License
-
-This project is licensed under the MIT License.
-
----
-
-# Contributing
-
-Contributions are welcome.
-
-1. Fork the repository
-2. Create a new branch
-3. Make changes
-4. Commit changes
-5. Push to your branch
-6. Open a Pull Request
-
----
-
-# Acknowledgements
-
-- LangChain
-- FastAPI
-- Streamlit
-- FAISS
-- Groq
-- Open Source AI Community
+LinkedIn: https://www.linkedin.com/in/katiyar-naitik/
